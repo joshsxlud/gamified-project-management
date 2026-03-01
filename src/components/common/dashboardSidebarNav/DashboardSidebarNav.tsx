@@ -6,7 +6,6 @@ export type DashboardNavLink = {
   label: string;
 };
 
-/** Main app nav links for the sidebar (shared by all dashboard pages). */
 export const mainNavTopLinks: DashboardNavLink[] = [
   { to: "/", label: "Home" },
   { to: "/task-dashboard", label: "Task Dashboard" },
