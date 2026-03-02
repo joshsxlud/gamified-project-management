@@ -1,5 +1,5 @@
 import DashboardWidgetCard from "../common/DashboardWidgetCard"
-import type { Task } from "../../../TaskDashboard";
+import type { Task } from "../../../../../types/taskType";
 
 type MyTasksWidgetProps = {
   tasks: Task[];

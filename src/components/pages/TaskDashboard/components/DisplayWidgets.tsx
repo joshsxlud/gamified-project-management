@@ -3,8 +3,9 @@ import WidgetThree from "./widgets/WidgetThree";
 import WidgetFour from "./widgets/WidgetFour";
 import WidgetSix from "./widgets/WidgetSix";
 import MyTasksWidget from "./widgets/MyTasksWidget";
-import type { DashboardViewOptions, Task } from "../../TaskDashboard";
+import type { DashboardViewOptions } from "../../../../types/dashboardViewOptions";
 import CreateTaskWidget from "./widgets/CreateTaskWidget";
+import type { Task } from "../../../../types/taskType";
 
 type DashboardViewProps = {
     view: DashboardViewOptions;
