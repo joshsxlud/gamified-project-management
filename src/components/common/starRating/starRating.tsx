@@ -1,35 +1,14 @@
-import type { starType } from "./models/starType";
+import { difficultyRating } from "../../../types/difficulty/difficultyRating";
+import type { StarRatingProps } from "../../../types/props/starRatingProps";
 
-type starDifficulty = {
-    star: starType
-}
+export default function StarRating({star: {difficulty}}: StarRatingProps) {
 
-interface ofDifficulty {
-    [key: number | string]: string;
-}
-
-const difficultyRating: ofDifficulty = {
-    1: "easy",
-    2: "medium",
-    3: "intermediate",
-    4: "hard",
-    5: "difficult"
-}
-
-export default function StarRating({star: {difficulty}}: starDifficulty) {
-    let stars = "";
-
-    const starCount = Number(Object.keys(difficultyRating).find(key => difficultyRating[key] === difficulty))
-
-    for (let i = 0; i < starCount; i++) {
-        if (i < starCount) {
-            stars += "★";
-        }
-    }
+    const label = difficultyRating[difficulty];
+    const stars = "★".repeat(Number(label));
 
     return (
         <>
-            <span key={difficulty} className={difficulty}>{stars}</span>
+            <span className={label}>{stars}</span>
         </>
     )
 }

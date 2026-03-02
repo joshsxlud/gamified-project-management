@@ -4,19 +4,8 @@ import DashboardSidebarNav, {
   mainNavBottomLinks,
 } from "../common/dashboardSidebarNav/DashboardSidebarNav";
 import { useState } from "react";
-
-// Type for different views, move into type folder
-export type DashboardViewOptions = "overview" | "myTasks";
-
-// Type for a TASK. MOVE to a types folder later
-// NOTE: id, description, and completed are CREATED when a task is made
-// BUT: State is NOT reflected in the UI.
-export type Task = {
-    id: string;
-    title: string;
-    description: string;
-    completed: boolean;
-}
+import type { Task } from "../../types/taskType";
+import type { DashboardViewOptions } from "../../types/dashboardViewOptions";
 
 const TaskDashboard = () => {
 
@@ -33,7 +22,7 @@ const TaskDashboard = () => {
             title,
             description,
             completed: false,
-    };
+        };
         
         setTasks((prevTasks) => [...prevTasks, newTask]);
 

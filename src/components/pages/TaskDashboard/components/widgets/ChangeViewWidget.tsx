@@ -1,4 +1,4 @@
-import type { DashboardViewOptions } from "../../../TaskDashboard";
+import type { DashboardViewOptions } from "../../../../../types/dashboardViewOptions";
 import DashboardWidgetCard from "../common/DashboardWidgetCard";
 
 type DashboardViewProps = {
