@@ -43,8 +43,11 @@ const DisplayWidgets = ({ view, setView, tasks, createTask, deleteTask }: Dashbo
                     <div className="col-span-1 self-start">
                         <div className="inline-flex">
                             <ChangeViewWidget
-                                view={view}
                                 setView={setView}
+                                view={view}
+                                tasks={tasks}
+                                createTask={createTask}
+                                deleteTask={deleteTask}
                             />
                         </div>
                     </div>
