@@ -1,8 +1,8 @@
 export type Group = {
-    id?: number,
-    organization_id: number,
+    id?: string,
+    organization_id: string,
     name: string,
     tasks: 
-        {task: number, 
-        completed: number},
+        {task: string, 
+        completed: string},
 }
