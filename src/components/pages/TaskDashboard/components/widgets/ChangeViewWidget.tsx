@@ -1,10 +1,5 @@
-import type { DashboardViewOptions } from "../../../TaskDashboard";
 import DashboardWidgetCard from "../common/DashboardWidgetCard";
-
-type DashboardViewProps = {
-    view: DashboardViewOptions;
-    setView: (view: DashboardViewOptions) => void;
-}
+import type { DashboardViewProps } from "../../../../../types/props/TaskDashboard/dashboardViewProps";
 
 const ChangeViewWidget = ({ setView }: DashboardViewProps) => {
     return (
