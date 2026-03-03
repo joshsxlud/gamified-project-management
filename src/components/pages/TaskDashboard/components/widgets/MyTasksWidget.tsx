@@ -9,9 +9,7 @@ const MyTasksWidget = () => {
     return (
         <DashboardWidgetCard widgetTitle="My Tasks">
         {tasks.length === 0 ? (
-            <p>
-            No tasks yet. Create one above.
-            </p>
+            <p>No tasks yet. Create one above.</p>
         ) : (
             <div className="
                 flex
@@ -68,3 +66,12 @@ const MyTasksWidget = () => {
 };
 
 export default MyTasksWidget;
+
+// I.3: New/Refactored Component: MyTasksWidget
+// Hook: useTasks
+// Uses the useTasks hook to access task data
+// Implementation:
+// Hook calls the service -> service calls the API (repository functions) -> API returns the task data -> 
+// task data is returned to the hook -> hook returns the task data to the component
+// In this case, task data is accessed from the hook and displayed in the component.
+// The component also allows for deleting tasks.

@@ -1,34 +1,28 @@
 import { useState } from "react";
 import type { Task } from "../types/taskType";
-import * as taskRepoFunctions from "../apis/taskRepo";
+import * as taskService from "../services/taskService";
 
-// Custom task hook to access task data
 export function useTasks() {
-    
-    // Initialize a state for tasks
-    // Takes existing tasks in mockTestData.ts
-    const [tasks, setTasks] = useState<Task[]>(() => taskRepoFunctions.fetchTasks());
 
-    // Creates a new task
+    // Initialize task state using mock data
+    const [tasks, setTasks] = useState<Task[]>(() => taskService.fetchTasks());
+
+    // Creates a new task and adds it to the mock data
+    // Updates state afterwards
     const createTask = (task: Omit<Task, "id">) => {
 
-        // Create task using repo functions
-        const newTask = taskRepoFunctions.createTask(task);
-
-        // Since a new task was added to the mock data,
-        // fetch updated data list, and set the new task
-        setTasks(taskRepoFunctions.fetchTasks());
+        const newTask = taskService.createTask(task);
+        setTasks(taskService.fetchTasks());
         return newTask;
-    }
-    
-    const deleteTask = (id: string) => {
-        
-        // Remove task from mock data
-        taskRepoFunctions.deleteTask(id);
-        
-        // fetch updated mock data list and set them
-        setTasks(taskRepoFunctions.fetchTasks());
-    }
+    };
 
-    return { tasks, createTask, deleteTask }
+    // Deletes a task from the mock data
+    // Updates state afterwards
+    const deleteTask = (id: string) => {
+
+        taskService.deleteTask(id);
+        setTasks(taskService.fetchTasks());
+    };
+
+    return { tasks, createTask, deleteTask };
 }
