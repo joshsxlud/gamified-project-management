@@ -24,16 +24,33 @@ export function addGroupToOrg(
   groupId: number
 ) {
   try {
+    let groupExists: boolean = false;
+
+    // Find organization with the given id
     const index: number = orgData.findIndex(
       (organization: Organization) => organization.id === orgId
     );
 
     if (index === -1) {
       throw new Error(`Org with ${orgId} cannot be found`);
+    } 
+
+    // Check each group if the group is already in another organization
+    for (const key in orgData) {
+      const groupIndex: number = orgData[key].groups.findIndex(
+        (group: number) => group === groupId
+      );
+
+      if (groupIndex !== -1) {
+        groupExists = true;
+      }
+    }
+    
+    if (groupExists) {
+      throw new Error(`Group with ${groupId} is already in an Organization`);
     }
 
     orgData[index].groups.push(groupId);
-
     return orgData;
   } catch (error: unknown) {
     throw error;
@@ -45,24 +62,24 @@ export function removeGroupFromOrg(
   groupId: number
 ) {
   try {
-    const orgIndex: number = orgData.findIndex(
+    // Find organization with the given id
+    const index: number = orgData.findIndex(
       (organization: Organization) => organization.id === orgId
     );
 
-    if (orgIndex === -1) {
+    if (index === -1) {
       throw new Error(`Org with ${orgId} cannot be found`);
-    } else {
-      const groupIndex: number = orgData[orgIndex].groups.findIndex(
-        (group: number) => group === groupId
-      );
+    } 
 
-      if (orgIndex === -1) {
-        throw new Error(`Group with ${groupId} cannot be found`);
-      }
+    const groupIndex: number = orgData[index].groups.findIndex(
+      (group: number) => group === groupId
+    );
 
-      orgData[orgIndex].groups.splice(groupIndex, 1);
+    if (groupIndex === -1) {
+      throw new Error(`Group with ${groupId} cannot be found`);
     }
 
+    orgData[index].groups.splice(groupIndex, 1);
     return orgData;
   } catch (error: unknown) {
     throw error;
