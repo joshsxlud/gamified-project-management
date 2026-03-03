@@ -3,9 +3,12 @@ import DashboardWidgetCard from "../common/DashboardWidgetCard";
 import { useTasks } from "../../../../../hooks/useTasks";
 
 const CreateTaskWidget = () => {
-  const { createTask } = useTasks();
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
+
+    const { createTask } = useTasks();
+    
+    // State variables local to the form inputs
+    const [title, setTitle] = useState<string>("");
+    const [description, setDescription] = useState<string>("");
 
   return (
     <DashboardWidgetCard widgetTitle="Add Task">
@@ -69,3 +72,11 @@ const CreateTaskWidget = () => {
 };
 
 export default CreateTaskWidget;
+
+
+// I.3: New/Refactored Component: CreateTaskWidget
+// Hook: useTasks
+// Uses the useTasks hook to create a new task
+// Implementation:
+// Hook calls the service -> service calls the API (repository functions) -> API returns the task data -> 
+// task data is returned to the hook -> hook returns the task data to the component
