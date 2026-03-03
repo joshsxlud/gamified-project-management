@@ -24,8 +24,6 @@ export function addGroupToOrg(
   groupId: number
 ) {
   try {
-    let groupExists: boolean = false;
-
     // Find organization with the given id
     const index: number = orgData.findIndex(
       (organization: Organization) => organization.id === orgId
@@ -34,21 +32,6 @@ export function addGroupToOrg(
     if (index === -1) {
       throw new Error(`Org with ${orgId} cannot be found`);
     } 
-
-    // Check each group if the group is already in another organization
-    for (const key in orgData) {
-      const groupIndex: number = orgData[key].groups.findIndex(
-        (group: number) => group === groupId
-      );
-
-      if (groupIndex !== -1) {
-        groupExists = true;
-      }
-    }
-    
-    if (groupExists) {
-      throw new Error(`Group with ${groupId} is already in an Organization`);
-    }
 
     orgData[index].groups.push(groupId);
     return orgData;
@@ -71,6 +54,7 @@ export function removeGroupFromOrg(
       throw new Error(`Org with ${orgId} cannot be found`);
     } 
 
+    // Find group with the given id
     const groupIndex: number = orgData[index].groups.findIndex(
       (group: number) => group === groupId
     );
