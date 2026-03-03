@@ -4,24 +4,20 @@ import * as taskService from "../services/taskService";
 
 export function useTasks() {
 
-    // Initialize task state using mock data
-    const [tasks, setTasks] = useState<Task[]>(() => taskService.fetchTasks());
+    // Initialize task state using a CLONED version of the taskData
+    const [tasks, setTasks] = useState<Task[]>(() => [...taskService.fetchTasks()]);
 
     // Creates a new task and adds it to the mock data
-    // Updates state afterwards
     const createTask = (task: Omit<Task, "id">) => {
-
         const newTask = taskService.createTask(task);
-        setTasks(taskService.fetchTasks());
+        setTasks([...taskService.fetchTasks()]);
         return newTask;
     };
 
     // Deletes a task from the mock data
-    // Updates state afterwards
     const deleteTask = (id: string) => {
-
         taskService.deleteTask(id);
-        setTasks(taskService.fetchTasks());
+        setTasks([...taskService.fetchTasks()]);
     };
 
     return { tasks, createTask, deleteTask };

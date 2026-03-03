@@ -5,9 +5,11 @@ import DashboardSidebarNav, {
 } from "../common/dashboardSidebarNav/DashboardSidebarNav";
 import { useState } from "react";
 import type { DashboardViewOptions } from "../../types/dashboardViewOptions";
+import { useTasks } from "../../hooks/useTasks";
 
 const TaskDashboard = () => {
     const [view, setView] = useState<DashboardViewOptions>("overview");
+    const { tasks, createTask, deleteTask } = useTasks();
 
     return (
         <main>
@@ -54,6 +56,9 @@ const TaskDashboard = () => {
                             <DisplayWidgets
                                 view={view}
                                 setView={setView}
+                                tasks={tasks}
+                                createTask={createTask}
+                                deleteTask={deleteTask}
                             />
                         </section>
                     </div>

@@ -3,17 +3,12 @@ import WidgetThree from "./widgets/WidgetThree";
 import WidgetFour from "./widgets/WidgetFour";
 import WidgetSix from "./widgets/WidgetSix";
 import MyTasksWidget from "./widgets/MyTasksWidget";
-import type { DashboardViewOptions } from "../../../../types/dashboardViewOptions";
+import type { DashboardViewProps } from "../../../../types/props/TaskDashboard/dashboardViewProps";
 import CreateTaskWidget from "./widgets/CreateTaskWidget";
-
-type DashboardViewProps = {
-    view: DashboardViewOptions;
-    setView: (view: DashboardViewOptions) => void;
-}
 
 // Displays all of the widgets on the dashboard
 // If more widgets get added, update grid layout
-const DisplayWidgets = ({ view, setView }: DashboardViewProps) => {
+const DisplayWidgets = ({ view, setView, tasks, createTask, deleteTask }: DashboardViewProps) => {
     return (
         <section className="
             w-full
@@ -64,7 +59,7 @@ const DisplayWidgets = ({ view, setView }: DashboardViewProps) => {
                             auto-rows-fr
                             h-full
                         ">
-                            <CreateTaskWidget />
+                            <CreateTaskWidget createTask={createTask} />
                             <WidgetThree />
                             <WidgetFour />
                             <WidgetSix />
@@ -78,7 +73,7 @@ const DisplayWidgets = ({ view, setView }: DashboardViewProps) => {
             <div className="h-6"/>
     
                 <div className="flex-1 min-h-0">
-                    <MyTasksWidget />
+                    <MyTasksWidget tasks={tasks} deleteTask={deleteTask} />
                 </div>
         </section>
     )

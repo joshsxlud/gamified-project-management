@@ -1,11 +1,9 @@
 import { useState } from "react";
 import DashboardWidgetCard from "../common/DashboardWidgetCard";
-import { useTasks } from "../../../../../hooks/useTasks";
+import type { CreateTaskWidgetProps } from "../../../../../types/props/TaskDashboard/createTasksProps";
 
-const CreateTaskWidget = () => {
+const CreateTaskWidget = ({ createTask }: CreateTaskWidgetProps) => {
 
-    const { createTask } = useTasks();
-    
     // State variables local to the form inputs
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");

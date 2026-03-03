@@ -1,10 +1,7 @@
 import DashboardWidgetCard from "../common/DashboardWidgetCard"
-import { useTasks } from "../../../../../hooks/useTasks";
+import type { MyTasksWidgetProps } from "../../../../../types/props/TaskDashboard/myTasksProps";
 
-const MyTasksWidget = () => {
-
-    // uses the custom task hook to access task data
-    const { tasks, deleteTask } = useTasks();
+const MyTasksWidget = ({ tasks, deleteTask }: MyTasksWidgetProps) => {
 
     return (
         <DashboardWidgetCard widgetTitle="My Tasks">
