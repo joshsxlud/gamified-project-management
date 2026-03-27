@@ -1,12 +1,12 @@
-import DepartmentForm from "./common/DepartmentForm/DepartmentForm";
-import DepartmentList from "./common/DepartmentList/DepartmentList";
+import DepartmentForm from "./DepartmentDashboard/common/DepartmentForm/DepartmentForm";
+import DepartmentList from "./DepartmentDashboard/common/DepartmentList/DepartmentList";
 import DashboardSidebarNav, {
   mainNavTopLinks,
   mainNavBottomLinks,
-} from "../../../common/dashboardSidebarNav/DashboardSidebarNav";
+} from "../common/dashboardSidebarNav/DashboardSidebarNav";
 import { useState } from "react";
-import tempData from "./assets/tempData.json";
-import type { DepartmentType } from "./types/DepartmentType";
+import tempData from "./DepartmentDashboard/assets/tempData.json";
+import type { DepartmentType } from "./DepartmentDashboard/types/DepartmentType";
 
 const DepartmentDashboard = () => {
     const [departments, setDepartments] = useState<DepartmentType[]>(tempData.departments);
