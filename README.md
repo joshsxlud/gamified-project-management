@@ -23,22 +23,54 @@ As an *organizer*, I want to create tasks for my group to complete to track proj
 **Viewing task progress as a *user***
 As a *user*, I want to view my total points so that I can track my progress over time.
 
-# Kanban Progress
+## Kanban Progress
 
-## Sprint 1
+### Sprint 1
 
-### Josh Salud
+#### Josh Salud
 
 - **Feature:** Task Card Component
 - README Documentation
 
-### Ronen Begelfor
+#### Ronen Begelfor
 
 - **Feature:** Star Component
 - Application Stylesheet & Guide
 
-### Elijah Juayang
+#### Elijah Juayang
 
 - **Feature:** Nav Bar/Hamburger Menu Component
 - Project and Repository Initialization
 - Vite Integration
+
+### Sprint 2
+
+#### Josh Salud
+
+- **Page:** Task Dashboard
+- Updated navigation to react style.
+- Created widgets which will build the task dashboard.
+
+#### Ronen Begelfor
+
+- **Page:** Department Dashboard
+
+#### Elijah Juayang
+
+- **Page:** Settings
+
+### Sprint 3
+
+#### Josh Salud
+
+- **Hook**: useTasks
+- Architecture markdown file
+
+#### Ronen Begelfor
+
+- **Hook**: useInput, useDepartments
+- Architecture markdown file
+
+#### Elijah Juayang
+
+- TBA

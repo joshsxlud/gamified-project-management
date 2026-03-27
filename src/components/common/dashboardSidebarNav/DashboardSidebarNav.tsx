@@ -13,8 +13,8 @@ export const mainNavTopLinks: DashboardNavLink[] = [
 ];
 
 export const mainNavBottomLinks: DashboardNavLink[] = [
-  { to: "#", label: "Options" },
-  { to: "#", label: "Account" },
+  { to: "/settings", label: "Settings" },
+  { to: "/account", label: "Account" },
 ];
 
 type DashboardSidebarNavProps = {
