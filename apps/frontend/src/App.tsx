@@ -2,7 +2,7 @@ import Footer from "./components/common/footer/Footer";
 import './App.css'
 import Header from "./components/common/header/Header";
 import TaskDashboard from "./components/pages/TaskDashboard";
-import DepartmentDashboard from "./components/pages/layout/DepartmentDashboard/DepartmentDashboard";
+import DepartmentDashboard from "./components/pages/DepartmentDashboard";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
