@@ -21,6 +21,7 @@ model Task {
   dueDate    String
   difficulty String
   status     Boolean
+  description String  @default("")
 }
 
 model User {

@@ -1,4 +1,5 @@
 import express, {Express} from "express";
+import taskRoutes from "./api/v1/routes/taskRoutes";
 import cors from "cors";
 
 import { corsOptions }  from "../config/cors";
@@ -16,6 +17,8 @@ app.use(express.json());
 app.get("/",  (_req, res) => {
     res.send("Got response from backend!");
 });
+
+app.use("/api/v1", taskRoutes);
 
 
 export default app;
