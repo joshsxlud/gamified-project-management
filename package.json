@@ -20,6 +20,8 @@
     "typescript": "^5.8.2"
   },
   "dependencies": {
+    "@types/cors": "^2.8.19",
+    "cors": "^2.8.6",
     "dotenv": "^16.4.7"
   }
 }
