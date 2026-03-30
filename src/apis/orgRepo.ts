@@ -1,7 +1,7 @@
 import type { Organization } from "../types/organizationType";
 import { orgData } from "./mockOrgData";
 
-export function fetchOrg(): Organization[] {
+export function fetchOrgs(): Organization[] {
   return orgData;
 }
 
