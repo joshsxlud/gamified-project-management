@@ -3,6 +3,7 @@ import { HTTP_STATUS } from "../constants/httpConstants";
 import { errorResponse, successResponse } from "../models/responseModel";
 import * as taskService from "../services/taskServices";
 import { Task } from "generated/prisma/client";
+import { CreateTaskData } from "../models/taskCreateModel";
 
 /**
  * Controller to get all of the tasks.
@@ -47,24 +48,42 @@ export const getTaskById = async (req: Request, res: Response, next: NextFunctio
     }
 }
 
-// /**
-//  * Controller to create a task.
-//  * 
-//  * @param req - Express request object. 
-//  * @param res - Express response object.
-//  * @param Next - Passes control to the next middleware.
-//  */
-// export const createTasks = async (req: Request, res: Response, next: NextFunction): Promise <void> => {
+/**
+ * Controller to create a task.
+ * 
+ * @param req - Express request object. 
+ * @param res - Express response object.
+ * @param Next - Passes control to the next middleware.
+ */
+export const createTasks = async (req: Request, res: Response, next: NextFunction): Promise <void> => {
 
-//     try {
+    try {
+        const taskData: CreateTaskData = {
+            assignedId: Number(req.body.assignedId),
+            assignedOn: req.body.assignedOn,
+            dueDate: req.body.dueDate,
+            difficulty: req.body.difficulty,
+            status: req.body.status ?? false,
+            description: req.body.description ?? "",
+        }
 
-//         res.status(HTTP_STATUS.OK).json(successResponse("Response is Okay."));
+        if (
+            !taskData.assignedId ||
+            !taskData.assignedOn ||
+            !taskData.difficulty
+        ) {
+            res.status(HTTP_STATUS.BAD_REQUEST).json(errorResponse("Invalid inputs."));
+        }
 
-//     } catch (error: unknown) {
+        const createdTask: Task = await taskService.createTask(taskData);
+        res.status(HTTP_STATUS.OK).json(successResponse(createdTask, "Response is Okay."));
 
-//         res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Error Response."))
-//     }
-// }
+    } catch (error: unknown) {
+
+        res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Error Response."));
+        next(error);
+    }
+}
 
 // /**
 //  * Controller to update task details.

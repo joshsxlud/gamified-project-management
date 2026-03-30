@@ -58,7 +58,7 @@ export const createTask = async (taskData: CreateTaskData): Promise<Task> => {
                 dueDate: taskData.dueDate,
                 difficulty: taskData.difficulty,
                 status: taskData.status ?? false,
-                description: taskData.description ?? "",
+                description: taskData.description,
             }
         });
         return structuredClone(newTask);

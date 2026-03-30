@@ -8,8 +8,8 @@ router.get("/tasks", taskControllers.getTasks);
 // Get task by ID
 router.get("/tasks/:id", taskControllers.getTaskById);
 
-// // Create task
-// router.post("/tasks", )
+// Create task
+router.post("/tasks", taskControllers.createTasks);
 
 // // Update a task i.e. task details
 // router.put("/tasks/:id", );
