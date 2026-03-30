@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Task {
+  id         Int     @id @default(autoincrement())
+  taskId     Int     @unique
+  assignedTo User    @relation(fields: [assignedId], references: [id])
+  assignedId Int
+  AssignedOn String
+  dueDate    String
+  difficulty String
+  status     Boolean
+  description String  @default("")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  username String
+  email    String @unique
+  group    Group  @relation(fields: [groupId], references: [id])
+  groupId  Int
+  tasks    Task[]
+}
+
+model Group {
+  id             Int          @id @default(autoincrement())
+  groupId        Int          @unique
+  name           String
+  numberOfUsers  Int
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId Int
+  users          User[]
+}
+
+model Organization {
+  id             Int     @id @default(autoincrement())
+  organizationId Int
+  groups         Group[]
+  name           String
+}
+
+// NOTE: remove .txt file extension when prisma is installed.
+// Figure out relations b/w tables

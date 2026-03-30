@@ -1,0 +1,32 @@
+{
+  "name": "@opusquest/backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/server.ts",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.6.0",
+    "@types/typescript": "^0.4.29",
+    "express": "^5.2.1",
+    "pg": "^8.20.0",
+    "typescript": "^6.0.2"
+  },
+  "devDependencies": {
+    "@prisma/client": "^7.6.0",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.5.0",
+    "@types/pg": "^8.20.0",
+    "dotenv": "^17.3.1",
+    "install": "^0.13.0",
+    "npm": "^11.12.1",
+    "prisma": "^7.6.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0"
+  }
+}
