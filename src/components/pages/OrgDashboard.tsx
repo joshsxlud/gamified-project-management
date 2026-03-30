@@ -1,16 +1,13 @@
-import { useState } from "react";
 import "./OrgDashboard.css";
 
-import { manageOrgs } from "../../hooks/manageOrgs";
-import type { Organization } from "../../types/organizationType";
 import DashboardSidebarNav, {
   mainNavTopLinks,
   mainNavBottomLinks,
 } from "../common/dashboardSidebarNav/DashboardSidebarNav";
+import OrgListPage from "./OrgDashboard/OrgListPage";
 
-const OrgDashboard = () => {
-
-  return (
+function OrgDashboard() {
+  return(
     <><div className="outer-page-wrapper">
     <div className="page-wrapper">
     <div className="horizontal-wrapper">
@@ -21,12 +18,16 @@ const OrgDashboard = () => {
 
       {/* MAIN ORG CONTENT */}
       <section className="dashboard-content">
-        {/* TODO */}
+        <OrgListPage
+          title="Organization Dashboard"
+          orgDependencies={[]}
+          orgFilterFn={null}
+        />
       </section>
     </div>
     </div>
     </div></>
-  );
-};
+  )
+}
 
 export default OrgDashboard;
