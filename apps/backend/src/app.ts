@@ -18,12 +18,15 @@ app.use(cors({
         if (origin === allowedOrigin)
         {
             callback(null, true);
+        } else {
+            // Just for now, in the future this would actually be important to add.
+            return callback(new Error('This domain is prohibited from accessing this backend!'))
         }
     },
     methods: [
         'GET', 'POST', 'PUT', 'DELETE'
     ]
-    
+
 }));
 
 // listen for requests on root and send simple text response
