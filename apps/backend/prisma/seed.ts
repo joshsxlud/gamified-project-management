@@ -12,30 +12,30 @@ async function main() {
     await prisma.group.deleteMany();
     await prisma.organization.deleteMany();
 
-    const organization = await prisma.organization.create({
-        data: organizationSeedData[0],
-    });
+    const createdOrganizations = [];
+    for (const organization of organizationSeedData) {
+        const createdOrganization = await prisma.organization.create({
+            data: organization,
+        });
+        createdOrganizations.push(createdOrganization);
+    }
 
     const createdGroups = [];
-
     for (const group of groupSeedData) {
         const createdGroup = await prisma.group.create({
             data: {
-                groupId: group.groupId,
                 name: group.name,
                 numberOfUsers: group.numberOfUsers,
-                organizationId: organization.id,
+                organizationId: group.organizationId,
             },
         });
-
         createdGroups.push(createdGroup);
     }
 
     const createdUsers = [];
-
     for (const user of userSeedData) {
         const matchingGroup = createdGroups.find(
-            (group) => group.groupId === user.groupId
+            (group) => group.id === user.groupId
         );
 
         if (!matchingGroup) {
@@ -54,22 +54,22 @@ async function main() {
     }
 
     for (const task of taskSeedData) {
-        const logicalUserNumber = task.assignedId;
-        const matchingUser = createdUsers[logicalUserNumber - 1];
+        const matchingUser = createdUsers.find(
+            (user) => user.id === task.assignedId
+        );
 
         if (!matchingUser) {
-            throw new Error(`No matching user found for task ${task.taskId}`);
+            throw new Error(`No matching user found for task assignedId ${task.assignedId}`);
         }
 
         await prisma.task.create({
             data: {
-                taskId: task.taskId,
                 assignedId: matchingUser.id,
-                AssignedOn: task.AssignedOn,
+                assignedOn: task.assignedOn,
                 dueDate: task.dueDate,
                 difficulty: task.difficulty,
                 status: task.status,
-                description: "description" in task ? task.description : "",
+                description: task.description,
             },
         });
     }

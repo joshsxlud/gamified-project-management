@@ -13,14 +13,13 @@ datasource db {
 }
 
 model Task {
-  id         Int     @id @default(autoincrement())
-  taskId     Int     @unique
-  assignedTo User    @relation(fields: [assignedId], references: [id])
-  assignedId Int
-  AssignedOn String
-  dueDate    String
-  difficulty String
-  status     Boolean
+  id          Int     @id @default(autoincrement())
+  assignedTo  User    @relation(fields: [assignedId], references: [id])
+  assignedId  Int
+  assignedOn  String
+  dueDate     String
+  difficulty  String
+  status      Boolean
   description String  @default("")
 }
 
@@ -35,7 +34,6 @@ model User {
 
 model Group {
   id             Int          @id @default(autoincrement())
-  groupId        Int          @unique
   name           String
   numberOfUsers  Int
   organization   Organization @relation(fields: [organizationId], references: [id])
@@ -44,10 +42,9 @@ model Group {
 }
 
 model Organization {
-  id             Int     @id @default(autoincrement())
-  organizationId Int
-  groups         Group[]
-  name           String
+  id     Int     @id @default(autoincrement())
+  groups Group[]
+  name   String
 }
 
 // NOTE: remove .txt file extension when prisma is installed.
