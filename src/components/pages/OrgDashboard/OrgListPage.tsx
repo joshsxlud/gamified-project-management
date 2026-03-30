@@ -1,5 +1,5 @@
 import type { Organization } from "../../../types/organizationType";
-import { manageOrgs } from "../../../hooks/manageOrgs";
+import { useOrgs } from "../../../hooks/useOrgs";
 import { OrgDisplay } from "./widgets/OrgDisplay";
 
 type OrgListPageProps = {
@@ -9,7 +9,7 @@ type OrgListPageProps = {
 }
 
 const OrgListPage = ({title, orgDependencies, orgFilterFn}: OrgListPageProps) => {
-  const { orgs, response, orgAddOrRemoveGroup } = manageOrgs(orgDependencies, orgFilterFn);
+  const { orgs, response, orgAddOrRemoveGroup } = useOrgs(orgDependencies, orgFilterFn);
 
   return (
     <>
