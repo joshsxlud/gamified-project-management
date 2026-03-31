@@ -1,4 +1,4 @@
-import type { Task } from "../models/tasks/taskModel";
+import type { Task } from "../../../../generated/prisma/client";
 import { prisma } from "../../../../prisma/client";
 import { CreateTaskData } from "../models/tasks/taskCreateModel";
 import { UpdateTaskData } from "../models/tasks/taskUpdateModel";
@@ -55,6 +55,7 @@ export const createTask = async (taskData: CreateTaskData): Promise<Task> => {
     try {
         const newTask = await prisma.task.create({
             data: {
+                title: taskData.title,
                 assignedId: taskData.assignedId,
                 assignedOn: taskData.assignedOn,
                 dueDate: taskData.dueDate,

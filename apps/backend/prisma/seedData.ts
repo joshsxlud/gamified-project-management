@@ -29,6 +29,14 @@ export const userSeedData = [
     { username: "user9", email: "user9@example.com", groupId: 3 },
 ];
 
+const titles = [
+    "Build dashboard",
+    "Fix login bug",
+    "Write tests",
+    "Refactor backend",
+    "Update docs",
+];
+
 const difficulties = ["Easy", "Medium", "Hard"];
 const descriptions = [
     "Finish dashboard UI",
@@ -43,6 +51,7 @@ export const taskSeedData = Array.from({ length: 45 }, (_, i) => {
     const userId = Math.floor(i / 5) + 1;
 
     const baseTask = {
+        title: titles[i % titles.length],
         assignedId: userId,
         assignedOn: `2026-03-${10 + (i % 5)}`,
         dueDate: `2026-04-${5 + (i % 5)}`,

@@ -64,6 +64,7 @@ async function main() {
 
         await prisma.task.create({
             data: {
+                title: task.title,
                 assignedId: matchingUser.id,
                 assignedOn: task.assignedOn,
                 dueDate: task.dueDate,

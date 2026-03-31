@@ -2,9 +2,9 @@ import { Request, Response, NextFunction } from "express";
 import { HTTP_STATUS } from "../constants/httpConstants";
 import { errorResponse, successResponse } from "../models/responseModel";
 import * as taskService from "../services/taskService";
-import { Task } from "generated/prisma/client";
 import { CreateTaskData } from "../models/tasks/taskCreateModel";
 import { UpdateTaskData } from "../models/tasks/taskUpdateModel";
+import { Task } from "generated/prisma/client";
 
 /**
  * Controller to get all of the tasks.
@@ -16,7 +16,7 @@ import { UpdateTaskData } from "../models/tasks/taskUpdateModel";
 export const getTasks = async (_req: Request, res: Response, next: NextFunction): Promise <void> => {
 
     try {
-        const tasks: Task[] = await taskService.getAllTasks();
+        const tasks = await taskService.getAllTasks();
         res.status(HTTP_STATUS.OK).json(successResponse(tasks, "All tasks have been found."));
 
     } catch (error: unknown) {
@@ -60,7 +60,8 @@ export const createTasks = async (req: Request, res: Response, next: NextFunctio
 
     try {
         const taskData: CreateTaskData = {
-            assignedId: Number(req.body.assignedId),
+            title: req.body.title,
+            assignedId: Number.parseInt(req.body.assignedId),
             assignedOn: req.body.assignedOn,
             dueDate: req.body.dueDate,
             difficulty: req.body.difficulty,
@@ -69,6 +70,7 @@ export const createTasks = async (req: Request, res: Response, next: NextFunctio
         }
 
         if (
+            !taskData.title ||
             !taskData.assignedId ||
             !taskData.assignedOn ||
             !taskData.difficulty
@@ -76,7 +78,7 @@ export const createTasks = async (req: Request, res: Response, next: NextFunctio
             res.status(HTTP_STATUS.BAD_REQUEST).json(errorResponse("Invalid inputs."));
         }
 
-        const createdTask: Task = await taskService.createTask(taskData);
+        const createdTask = await taskService.createTask(taskData);
         res.status(HTTP_STATUS.OK).json(successResponse(createdTask, "Task has been created."));
 
     } catch (error: unknown) {
@@ -105,7 +107,7 @@ export const updateTasks = async (req: Request, res: Response, next: NextFunctio
 
         // joi validation later
 
-        const updatedTask: Task = await taskService.updateTask(taskId, updateData);
+        const updatedTask = await taskService.updateTask(taskId, updateData);
         res.status(HTTP_STATUS.OK).json(successResponse(updatedTask,"Task has been updated."));
 
     } catch (error: unknown) {
@@ -153,6 +155,7 @@ export const deleteTasks = async (req: Request, res: Response, next: NextFunctio
 
     } catch (error: unknown) {
 
-        res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Error Response."))
+        res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Error Response."));
+        next(error);
     }
 }

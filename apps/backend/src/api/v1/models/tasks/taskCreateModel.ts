@@ -1,4 +1,5 @@
 export interface CreateTaskData {
+    title: string;
     assignedId: number;
     assignedOn: string;
     dueDate: string;
