@@ -114,24 +114,27 @@ export const updateTasks = async (req: Request, res: Response, next: NextFunctio
     }
 }
 
-// /**
-//  * Controller mark a task as complete.
-//  * 
-//  * @param req - Express request object. 
-//  * @param res - Express response object.
-//  * @param Next - Passes control to the next middleware.
-//  */
-// export const markTasksAsComplete = async (req: Request, res: Response, Next: nextFunction): Promise <void> => {
+/**
+ * Controller mark a task as complete.
+ * 
+ * @param req - Express request object. 
+ * @param res - Express response object.
+ * @param Next - Passes control to the next middleware.
+ */
+export const markTasksAsComplete = async (req: Request, res: Response, next: NextFunction): Promise <void> => {
 
-//     try {
+    try {
+        const taskId: number = req.body.id;
+        const taskStatus: boolean = req.body.status;
 
-//         res.status(HTTP_STATUS.OK).json(successResponse("Response is Okay."));
+        const markedTask = await taskService.updateTaskStatus(taskId, taskStatus);
+        res.status(HTTP_STATUS.OK).json(successResponse(markedTask, "Response is Okay."));
 
-//     } catch (error: unknown) {
-
-//         res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Error Response."))
-//     }
-// }
+    } catch (error: unknown) {
+        res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Error Response."));
+        next(error);
+    }
+}
 
 // /**
 //  * Controller to delete a task.

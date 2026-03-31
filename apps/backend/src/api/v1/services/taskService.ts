@@ -90,3 +90,25 @@ export const updateTask = async (id: number, updateData: UpdateTaskData): Promis
         throw new Error(`Task with id ${id} could not be updated.`);
     }
 }
+
+/**
+ * Service to update the status of a task.
+ * 
+ * @param id - The id of the task being updated.
+ * @param status - the status of the task. e.g. False = not completed.
+ * @returns 
+ */
+export const updateTaskStatus = async (id: number, status: boolean): Promise<Task> => {
+
+    try {
+         const statusUpdateTask = prisma.task.update({
+            where: { id },
+            data: { status }
+        });
+
+        return structuredClone(statusUpdateTask);
+    } catch {
+
+        throw new Error(`Task with id ${id} could not be updated.`);
+    }
+}
