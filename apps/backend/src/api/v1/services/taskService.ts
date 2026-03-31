@@ -13,7 +13,7 @@ export const getAllTasks = async (): Promise<Task[]> => {
     try {
         const tasks = await prisma.task.findMany();
         return structuredClone(tasks);
-    } catch (error) {
+    } catch (error: unknown) {
         throw new Error("Failed to retrieve all tasks.");
     }
 }
@@ -38,7 +38,7 @@ export const getTaskById = async (id: number): Promise<Task> => {
         }
 
         return structuredClone(task);
-    } catch (error) {
+    } catch (error: unknown) {
 
         throw new Error(`Task with id ${id} could not be retrieved.`);
     }
@@ -65,7 +65,7 @@ export const createTask = async (taskData: CreateTaskData): Promise<Task> => {
             }
         });
         return structuredClone(newTask);
-    } catch (error) {
+    } catch (error: unknown) {
         throw new Error(`Task could not be created.`);
     }
 }
@@ -86,7 +86,7 @@ export const updateTask = async (id: number, updateData: UpdateTaskData): Promis
         });
 
         return structuredClone(updatedTask);
-    } catch (error) {
+    } catch (error: unknown) {
 
         throw new Error(`Task with id ${id} could not be updated.`);
     }
@@ -121,7 +121,7 @@ export const deleteTask = async (id: number): Promise<void> => {
         await prisma.task.delete({
             where: { id }
         });
-    } catch (error) {
+    } catch (error: unknown) {
         throw new Error(`Task with id ${id} could not be deleted.`);
     } 
 }
