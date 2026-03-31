@@ -1,9 +1,0 @@
-{
-    "departments": [
-        {
-            "departmentName": "Information Technology",
-            "employeeCount": 10,
-            "taskCount": 10
-        }
-    ]
-}

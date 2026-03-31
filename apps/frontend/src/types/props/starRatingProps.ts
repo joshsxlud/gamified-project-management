@@ -1,7 +1,7 @@
-import type { DifficultyLevel } from "../difficulty/difficultyRating";
+// import type { DifficultyLevel } from "../difficulty/difficultyRating";
 
-export interface StarRatingProps {
-    star: {
-        difficulty: DifficultyLevel;
-    }
-}
+// export interface StarRatingProps {
+//     star: {
+//         difficulty: DifficultyLevel;
+//     }
+// }
