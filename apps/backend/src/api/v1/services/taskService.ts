@@ -112,3 +112,15 @@ export const updateTaskStatus = async (id: number, status: boolean): Promise<Tas
         throw new Error(`Task with id ${id} could not be updated.`);
     }
 }
+
+export const deleteTask = async (id: number): Promise<void> => {
+
+    try {
+
+        await prisma.task.delete({
+            where: { id }
+        });
+    } catch (error) {
+        throw new Error(`Task with id ${id} could not be deleted.`);
+    } 
+}

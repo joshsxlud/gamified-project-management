@@ -17,7 +17,7 @@ export const getTasks = async (_req: Request, res: Response, next: NextFunction)
 
     try {
         const tasks: Task[] = await taskService.getAllTasks();
-        res.status(HTTP_STATUS.OK).json(successResponse(tasks, "Response is Okay."));
+        res.status(HTTP_STATUS.OK).json(successResponse(tasks, "All tasks have been found."));
 
     } catch (error: unknown) {
 
@@ -40,7 +40,7 @@ export const getTaskById = async (req: Request, res: Response, next: NextFunctio
         const task: Task = await taskService.getTaskById(taskId);
 
 
-        res.status(HTTP_STATUS.OK).json(successResponse(task, "Response is Okay."));
+        res.status(HTTP_STATUS.OK).json(successResponse(task, "Task has been found."));
 
     } catch (error: unknown) {
 
@@ -77,7 +77,7 @@ export const createTasks = async (req: Request, res: Response, next: NextFunctio
         }
 
         const createdTask: Task = await taskService.createTask(taskData);
-        res.status(HTTP_STATUS.OK).json(successResponse(createdTask, "Response is Okay."));
+        res.status(HTTP_STATUS.OK).json(successResponse(createdTask, "Task has been created."));
 
     } catch (error: unknown) {
 
@@ -106,7 +106,7 @@ export const updateTasks = async (req: Request, res: Response, next: NextFunctio
         // joi validation later
 
         const updatedTask: Task = await taskService.updateTask(taskId, updateData);
-        res.status(HTTP_STATUS.OK).json(successResponse(updatedTask,"Response is Okay."));
+        res.status(HTTP_STATUS.OK).json(successResponse(updatedTask,"Task has been updated."));
 
     } catch (error: unknown) {
         res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Error Response."));
@@ -124,7 +124,7 @@ export const updateTasks = async (req: Request, res: Response, next: NextFunctio
 export const markTasksAsComplete = async (req: Request, res: Response, next: NextFunction): Promise <void> => {
 
     try {
-        const taskId: number = req.body.id;
+        const taskId: number = Number(req.body.id);
         const taskStatus: boolean = req.body.status;
 
         const markedTask = await taskService.updateTaskStatus(taskId, taskStatus);
@@ -136,21 +136,23 @@ export const markTasksAsComplete = async (req: Request, res: Response, next: Nex
     }
 }
 
-// /**
-//  * Controller to delete a task.
-//  * 
-//  * @param req - Express request object. 
-//  * @param res - Express response object.
-//  * @param Next - Passes control to the next middleware.
-//  */
-// export const deleteTasks = async (req: Request, res: Response, Next: nextFunction): Promise <void> => {
+/**
+ * Controller to delete a task.
+ * 
+ * @param req - Express request object. 
+ * @param res - Express response object.
+ * @param Next - Passes control to the next middleware.
+ */
+export const deleteTasks = async (req: Request, res: Response, next: NextFunction): Promise <void> => {
 
-//     try {
+    try {
 
-//         res.status(HTTP_STATUS.OK).json(successResponse("Response is Okay."));
+        const taskId: number = Number(req.params.id);
+        await taskService.deleteTask(taskId);
+        res.status(HTTP_STATUS.OK).json(successResponse("Task has been deleted."));
 
-//     } catch (error: unknown) {
+    } catch (error: unknown) {
 
-//         res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Error Response."))
-//     }
-// }
+        res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Error Response."))
+    }
+}
