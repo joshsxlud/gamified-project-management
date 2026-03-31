@@ -1,10 +1,9 @@
 {
-   "relatedProjects": ["prj_H7sWRg9KyIPp5ZnPh0tSpM5LAhOe"],
-
-   "git": {
-     "deploymentEnabled": {
-         "*": false,
-         "main": true
-     }
- }
+  "version": 2,
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "src/server.ts"
+    }
+  ]
 }
