@@ -1,6 +1,7 @@
-import type { Task } from "../models/taskModel";
+import type { Task } from "../models/tasks/taskModel";
 import { prisma } from "../../../../prisma/client";
-import { CreateTaskData } from "../models/taskCreateModel";
+import { CreateTaskData } from "../models/tasks/taskCreateModel";
+import { UpdateTaskData } from "../models/tasks/taskUpdateModel";
 
 /**
  * Service to get all tasks.
@@ -39,7 +40,7 @@ export const getTaskById = async (id: number): Promise<Task> => {
         return structuredClone(task);
     } catch (error) {
 
-        throw Error;
+        throw new Error(`Task with id ${id} could not be retrieved.`);
     }
 }
 
@@ -50,6 +51,7 @@ export const getTaskById = async (id: number): Promise<Task> => {
  * @returns - The newly created task.
  */
 export const createTask = async (taskData: CreateTaskData): Promise<Task> => {
+    
     try {
         const newTask = await prisma.task.create({
             data: {
@@ -63,6 +65,28 @@ export const createTask = async (taskData: CreateTaskData): Promise<Task> => {
         });
         return structuredClone(newTask);
     } catch (error) {
-        throw Error;
+        throw new Error(`Task could not be created.`);
+    }
+}
+
+/**
+ * Service to update a task's details.
+ * 
+ * @param id - The id of the task being updated.
+ * @param updateData - The update data.
+ * @returns Task - The updated task.
+ */
+export const updateTask = async (id: number, updateData: UpdateTaskData): Promise<Task> => {
+    
+    try {
+        const updatedTask = await prisma.task.update({
+            where: { id },
+            data: updateData
+        });
+
+        return structuredClone(updatedTask);
+    } catch (error) {
+
+        throw new Error(`Task with id ${id} could not be updated.`);
     }
 }

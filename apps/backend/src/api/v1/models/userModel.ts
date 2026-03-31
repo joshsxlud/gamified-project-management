@@ -1,4 +1,4 @@
-import type { Task } from "./taskModel";
+import type { Task } from "./tasks/taskModel";
 
 export interface User {
 

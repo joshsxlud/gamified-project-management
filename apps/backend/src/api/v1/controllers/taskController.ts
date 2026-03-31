@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import { HTTP_STATUS } from "../constants/httpConstants";
 import { errorResponse, successResponse } from "../models/responseModel";
-import * as taskService from "../services/taskServices";
+import * as taskService from "../services/taskService";
 import { Task } from "generated/prisma/client";
-import { CreateTaskData } from "../models/taskCreateModel";
+import { CreateTaskData } from "../models/tasks/taskCreateModel";
+import { UpdateTaskData } from "../models/tasks/taskUpdateModel";
 
 /**
  * Controller to get all of the tasks.
@@ -85,24 +86,33 @@ export const createTasks = async (req: Request, res: Response, next: NextFunctio
     }
 }
 
-// /**
-//  * Controller to update task details.
-//  * 
-//  * @param req - Express request object. 
-//  * @param res - Express response object.
-//  * @param Next - Passes control to the next middleware.
-//  */
-// export const updateTasks = async (req: Request, res: Response, Next: nextFunction): Promise <void> => {
+/**
+ * Controller to update task details.
+ * 
+ * @param req - Express request object. 
+ * @param res - Express response object.
+ * @param Next - Passes control to the next middleware.
+ */
+export const updateTasks = async (req: Request, res: Response, next: NextFunction): Promise <void> => {
 
-//     try {
+    try {
+        const taskId = req.body.id;
+        const updateData: UpdateTaskData = {
+            dueDate: req.body.dueDate,
+            difficulty: req.body.difficulty,
+            description: req.body.description
+        }
 
-//         res.status(HTTP_STATUS.OK).json(successResponse("Response is Okay."));
+        // joi validation later
 
-//     } catch (error: unknown) {
+        const updatedTask: Task = await taskService.updateTask(taskId, updateData);
+        res.status(HTTP_STATUS.OK).json(successResponse(updatedTask,"Response is Okay."));
 
-//         res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Error Response."))
-//     }
-// }
+    } catch (error: unknown) {
+        res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Error Response."));
+        next(error);
+    }
+}
 
 // /**
 //  * Controller mark a task as complete.

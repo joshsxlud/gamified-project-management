@@ -11,8 +11,8 @@ router.get("/tasks/:id", taskControllers.getTaskById);
 // Create task
 router.post("/tasks", taskControllers.createTasks);
 
-// // Update a task i.e. task details
-// router.put("/tasks/:id", );
+// Update a task i.e. task details
+router.put("/tasks/:id", taskControllers.updateTasks);
 
 // // Use to mark a task as complete
 // router.put("/tasks/:id/complete", );
