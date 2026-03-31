@@ -1,52 +1,114 @@
 import type { Group } from "../types/groupType";
-import { groupData } from "./mockGroupData";
+
+type DepartmentsResponseJSON = {message: String, data: Group[]};
+type DepartmentResponseJSON = {message: String, data: Group};
+
+const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/v1`;
+const DEPARTMENT_ENDPOINT = "/departments"
 
 // Get all groups attached to an organization
-export function fetchGroups(): Group[] {
-    return groupData;
-}
+export async function fetchGroups(): Promise<Group[]> {
+    try {
+        const departmentResponse: Response = await fetch(
+            `${BASE_URL}${DEPARTMENT_ENDPOINT}`
+        );
 
-// Creates a new group
-export function createGroup(group: Group): Group {
-    const newGroup: Group = {
-    ...group,
+        if (!departmentResponse.ok) {
+            throw new Error("Failed to fetch departments.");
+        }
 
-    id: group.id ?? crypto.randomUUID(),
-    };
-    groupData.push(newGroup);
-    return newGroup;
+        const json: DepartmentsResponseJSON = await departmentResponse.json();
+        return json.data;
+    } catch (error: unknown) {
+        throw new Error(`Fetching failed, ${error}`);
+    }
 }
 
 // Get a group by its id
-export function getGroupById(groupId: string): Group {
-    const foundGroup = groupData.find((g) => g.id === groupId);
+export async function getGroupById(groupId: number): Promise<Group> {
+    try {
+        const departmentResponse: Response = await fetch(
+            `${BASE_URL}${DEPARTMENT_ENDPOINT}/${groupId}`
+        );
 
-    if (!foundGroup) {
-        throw new Error(`Failed to fetch group with id ${groupId}`);
+        if(!departmentResponse.ok) {
+            throw new Error(`Failed to fetch department with id ${groupId}`);
+        }
+
+        const json: DepartmentResponseJSON = await departmentResponse.json();
+        return json.data;
+    } catch (error: unknown) {
+        throw new Error(`Fetching failed, ${error}`);
     }
+}
 
-    return foundGroup;
+// Creates a new group
+export async function createGroup(group: Group): Promise<Group> {
+    try {
+        const createResponse: Response = await fetch(
+            `${BASE_URL}${DEPARTMENT_ENDPOINT}`,
+            {
+                method: "PUSH",
+                body: JSON.stringify({...group}),
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            }
+        );
+            
+        if(!createResponse.ok) {
+            throw new Error(`Failed to create department.`);
+        }
+
+        const json: DepartmentResponseJSON = await createResponse.json();
+        return json.data;
+    } catch (error: unknown) {
+        throw new Error(`Creation failed, ${error}`);
+    }
 }
 
 // Updates a group, ensures to get the group's id first
 export async function updateGroup(group: Group): Promise<Group> {
-    const foundGroupIndex = groupData.findIndex((g) => g.id === group.id);
-
-    if (foundGroupIndex === -1) {
-            throw new Error(`Failed to update group with id ${group.id}`);
+    try {
+        const updateResponse: Response = await fetch(
+            `${BASE_URL}${DEPARTMENT_ENDPOINT}/${group.id}`,
+            {
+                method: "PUT",
+                body: JSON.stringify({...group}),
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            }
+        );
+            
+        if(!updateResponse.ok) {
+            throw new Error(`Failed to update department with id ${group.id}.`);
         }
     
-    groupData[foundGroupIndex] = group;
-    return groupData[foundGroupIndex];
+        const json: DepartmentResponseJSON = await updateResponse.json();
+        return json.data;
+    } catch (error: unknown) {
+        throw new Error(`Update failed, ${error}`);
+    }
 }
 
 // Deletes a group using its id
-export function deleteGroup(groupId: string): void {
-    const foundGroup = groupData.findIndex((g) => g.id === groupId);
-
-    if (foundGroup === -1) {
-            throw new Error(`Failed to delete group with id ${groupId}`);
+export async function deleteGroup(groupId: string) {
+    try {
+        const deleteResponse: Response = await fetch(
+            `${BASE_URL}${DEPARTMENT_ENDPOINT}/${groupId}`,
+            {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            }
+        );
+            
+        if(!deleteResponse.ok) {
+            throw new Error(`Failed to delete department with id ${groupId}.`);
         }
-    
-    groupData.splice(foundGroup, 1);
+    } catch (error: unknown) {
+        throw new Error(`Deletion failed, ${error}`);
+    }
 }
