@@ -38,7 +38,7 @@ export const getDepartmentById = async (id: number): Promise<Group> => {
         }
 
         return structuredClone(department);
-    } catch (error) {
+    } catch (error: unknown) {
 
         throw new Error(`Department with id ${id} could not be retrieved.`);
     }
@@ -54,7 +54,7 @@ export const createDepartment = async (groupData: DepartmentCreateModel): Promis
             }
         });
         return structuredClone(newDepartment);
-    } catch (error) {
+    } catch (error: unknown) {
         throw new Error(`Department could not be created.`);
     }
 }
@@ -67,7 +67,7 @@ export const updateDepartment = async (id: number, updateData: DepartmentUpdateM
         });
 
         return structuredClone(updateDepartment);
-    } catch (error) {
+    } catch (error: unknown) {
         throw new Error(`Department with id ${id} could not be updated.`);
     }
 }
@@ -77,7 +77,7 @@ export const deleteDepartment = async (id: number): Promise<void> => {
         await prisma.group.delete({
             where: {id}
         });
-    } catch (error) {
+    } catch (error: unknown) {
         throw new Error(`Department with id ${id} could not be deleted.`)
     }
 }
