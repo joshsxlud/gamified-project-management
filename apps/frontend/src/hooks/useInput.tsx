@@ -27,7 +27,7 @@ export default function useInput ({ input } : InputProp) {
         setError("");
     };
 
-    const handleSubmit = async (callback: (value: string) => void) => {
+    const handleSubmit = async (callback: (value: string) => Promise<void>) => {
         const validationError = validate();
 
         if (validationError) {
@@ -36,7 +36,7 @@ export default function useInput ({ input } : InputProp) {
         }
 
         setIsSubmitting(true);
-        await Promise.resolve(callback(value));
+        await callback(value);
         setIsSubmitting(false);
         setValue("");
     };
