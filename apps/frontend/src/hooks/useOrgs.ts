@@ -23,6 +23,17 @@ export function useOrgs(
     }
   }
 
+  const createOrg = async(
+    name: string
+  ) => {
+    try {
+      await OrgService.createOrg(name);
+      await fetchOrgs();
+    } catch(e) {
+      setResponse(`${e}`);
+    }
+  }
+
   const orgAddOrRemoveGroup = async(
     orgId: number,
     groupId: number
