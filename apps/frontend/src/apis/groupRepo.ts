@@ -48,7 +48,7 @@ export async function createGroup(group: Group): Promise<Group> {
         const createResponse: Response = await fetch(
             `${BASE_URL}${DEPARTMENT_ENDPOINT}`,
             {
-                method: "PUSH",
+                method: "POST",
                 body: JSON.stringify({...group}),
                 headers: {
                     "Content-Type": "application/json",

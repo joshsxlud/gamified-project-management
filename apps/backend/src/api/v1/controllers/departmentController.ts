@@ -58,8 +58,8 @@ export const createDepartment = async (req: Request, res: Response, next: NextFu
             res.status(HTTP_STATUS.BAD_REQUEST).json(errorResponse("Invalid inputs."));
         }
 
-        const createDepartment = await departmentService.createDepartment(departmentData);
-        res.status(HTTP_STATUS.OK).json(successResponse(createDepartment, "Department has been created."));
+        const createdDepartment = await departmentService.createDepartment(departmentData);
+        res.status(HTTP_STATUS.OK).json(successResponse(createdDepartment, "Department has been created."));
     } catch (error: unknown) {
         res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Internal error."));
         next(error);
@@ -82,7 +82,7 @@ export const updateDepartment = async (req: Request, res: Response, next: NextFu
     }
 }
 
-export const deleteDepartmebt = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const deleteDepartment = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const departmentId: number = Number(req.body.id);
         await departmentService.deleteDepartment(departmentId);

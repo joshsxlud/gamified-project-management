@@ -1,8 +1,8 @@
 import DepartmentForm from "./DepartmentDashboard/common/DepartmentForm/DepartmentForm";
 import DepartmentList from "./DepartmentDashboard/common/DepartmentList/DepartmentList";
 import DashboardSidebarNav, {
-  mainNavTopLinks,
-  mainNavBottomLinks,
+    mainNavTopLinks,
+    mainNavBottomLinks,
 } from "../common/dashboardSidebarNav/DashboardSidebarNav";
 import { useState } from "react";
 import tempData from "./DepartmentDashboard/assets/tempData.json";
@@ -10,23 +10,34 @@ import type { DepartmentType } from "./DepartmentDashboard/types/DepartmentType"
 
 const DepartmentDashboard = () => {
     const [departments, setDepartments] = useState<DepartmentType[]>(tempData.departments);
-        const [selectedDepartment] = useState<string>(
+    const [selectedDepartment] = useState<string>(
         tempData.departments[0]?.departmentName ?? ""
     )
 
-    const addDepartment = (
+    const addDepartment = async (
         departmentName: string,
-        employeeCount: number,
-        taskCount: number
-    ): void => {
-        setDepartments(prev => [
-            ...prev,
-            {
-                departmentName,
-                employeeCount,
-                taskCount,
-            }
-        ])
+        numberOfUsers: number,
+        organizationId: string,
+    ): Promise<void> => {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/departments`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                numberOfUsers: numberOfUsers,
+                name: departmentName,
+                organizationId: organizationId,
+            }),
+        });
+
+        if (!res.ok) {
+            throw new Error("Failed to add department.");
+        }
+
+        const newDepartment = await res.json();
+
+        setDepartments(prev => [...prev, newDepartment]);
     }
 
     const removeDepartmentAtIndex = (index: number) => {

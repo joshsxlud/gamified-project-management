@@ -17,8 +17,8 @@ export default function DepartmentForm({
         const onSubmit = (e: React.FormEvent) => {
             e.preventDefault();
 
-            departmentInput.handleSubmit((value) => {
-                addDepartment(value, 0, 0);
+            departmentInput.handleSubmit( async (value) => {
+                addDepartment(value, 0, "");
             })
         }
     
