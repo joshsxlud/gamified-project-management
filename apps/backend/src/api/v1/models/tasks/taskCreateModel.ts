@@ -1,3 +1,8 @@
+
+/**
+ * Model used to type taskData objects when creating
+ * a new task.
+ */
 export interface CreateTaskData {
     title: string;
     assignedId: number;

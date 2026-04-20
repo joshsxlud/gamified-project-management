@@ -1,4 +1,7 @@
-// Used for updating task data.
+/**
+ * Model for sending updates to an existing
+ * task.
+ */
 export interface UpdateTaskData {
     dueDate?: string;
     difficulty?: string;

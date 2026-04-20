@@ -4,9 +4,9 @@ import { CreateTaskData } from "../models/tasks/taskCreateModel";
 import { UpdateTaskData } from "../models/tasks/taskUpdateModel";
 
 /**
- * Service to get all tasks.
+ * Calls the prisma client to get all the tasks.
  * 
- * @returns A list of all Tasks.
+ * @returns {Promise<Task[]>} A list of all Tasks.
  */
 export const getAllTasks = async (): Promise<Task[]> => {
 
@@ -19,10 +19,10 @@ export const getAllTasks = async (): Promise<Task[]> => {
 }
 
 /**
- * Service to get a task by id.
+ * Calls the prisma client to get a task by id.
  * 
- * @param id - The id of the task.
- * @returns Task - A task object.
+ * @param {number} id - id of the task.
+ * @returns {Promise<Task>} Task object.
  */
 export const getTaskById = async (id: number): Promise<Task> => {
 
@@ -32,23 +32,20 @@ export const getTaskById = async (id: number): Promise<Task> => {
                 id: id,
             }
         });
-
         if (!task){
             throw new Error(`Could not get task with id ${"id"}.`)
         }
-
         return structuredClone(task);
     } catch (error) {
-
         throw new Error(`Task with id ${id} could not be retrieved.`);
     }
 }
 
 /**
- * Service to create a task.
+ * Calls the Prisma client to create a new task.
  * 
- * @param taskData - Information about the task.
- * @returns - The newly created task.
+ * @param {CreateTaskData} taskData - Information used to create a task.
+ * @returns {Task} New task object.
  */
 export const createTask = async (taskData: CreateTaskData): Promise<Task> => {
     
@@ -72,11 +69,11 @@ export const createTask = async (taskData: CreateTaskData): Promise<Task> => {
 }
 
 /**
- * Service to update a task's details.
+ * Calls the Prisma client to update the details of a task.
  * 
- * @param id - The id of the task being updated.
- * @param updateData - The update data.
- * @returns Task - The updated task.
+ * @param {number} id - id of the task being updated.
+ * @param {updateData} updateData - Details of the task to update.
+ * @returns {Promise<Task>} updated task object.
  */
 export const updateTask = async (id: number, updateData: UpdateTaskData): Promise<Task> => {
     
@@ -85,20 +82,18 @@ export const updateTask = async (id: number, updateData: UpdateTaskData): Promis
             where: { id },
             data: updateData
         });
-
         return structuredClone(updatedTask);
     } catch (error) {
-
         throw new Error(`Task with id ${id} could not be updated.`);
     }
 }
 
 /**
- * Service to update the status of a task.
+ * Calls the Prisma client to update the status of a task.
  * 
- * @param id - The id of the task being updated.
- * @param status - the status of the task. e.g. False = not completed.
- * @returns 
+ * @param {number} id - id of the task being updated.
+ * @param {boolean} status - Updated status of the task.
+ * @returns {Promise<Task>} Updated task object.
  */
 export const updateTaskStatus = async (id: number, status: boolean): Promise<Task> => {
 
@@ -107,18 +102,20 @@ export const updateTaskStatus = async (id: number, status: boolean): Promise<Tas
             where: { id },
             data: { status }
         });
-
         return structuredClone(statusUpdateTask);
     } catch {
-
         throw new Error(`Task with id ${id} could not be updated.`);
     }
 }
 
+/**
+ * Calls the Prisma client to delete a task.
+ * 
+ * @param {number} id - id of the task being deleted.
+ */
 export const deleteTask = async (id: number): Promise<void> => {
 
     try {
-
         await prisma.task.delete({
             where: { id }
         });

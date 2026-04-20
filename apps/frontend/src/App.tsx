@@ -20,10 +20,4 @@ function App() {
   )
 }
 
-export default App
-
-// import TaskDashboard from "./components/pages/TaskDashboard";
-// function App() {
-//   return <TaskDashboard />;
-// }
-// export default App;
+export default App;
