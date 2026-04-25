@@ -1,4 +1,9 @@
-import type { User } from "../../apps/backend/src/api/v1/models/userModel";
+export interface User {
+    id: number;
+    username: string;
+    email: string;
+    groupId: number;
+}
 
 export type DepartmentBranch = {
 
