@@ -1,59 +1,77 @@
+import { useState } from "react";
 import DepartmentForm from "./DepartmentDashboard/common/DepartmentForm/DepartmentForm";
 import DepartmentList from "./DepartmentDashboard/common/DepartmentList/DepartmentList";
 import DashboardSidebarNav, {
-  mainNavTopLinks,
-  mainNavBottomLinks,
+    mainNavTopLinks,
+    mainNavBottomLinks,
 } from "../common/dashboardSidebarNav/DashboardSidebarNav";
-import { useState } from "react";
-import tempData from "./DepartmentDashboard/assets/tempData.json";
-import type { DepartmentType } from "./DepartmentDashboard/types/DepartmentType";
+
+import { useEffect } from "react";
+import { fetchGroups } from "../../apis/groupRepo";
+import { deleteGroup } from "../../apis/groupRepo";
+
+import { createGroup } from "../../apis/groupRepo";
+// import type { groupType } from "../../types/groupType";
+
+import type { DepartmentBranch as Group } from "../../../../../shared/types/frontend-department";
 
 const DepartmentDashboard = () => {
-    const [departments, setDepartments] = useState<DepartmentType[]>(tempData.departments);
-        const [selectedDepartment] = useState<string>(
-        tempData.departments[0]?.departmentName ?? ""
-    )
+    const [departments, setDepartments] = useState<Group[]>([]);
 
-    const addDepartment = (
-        departmentName: string,
-        employeeCount: number,
-        taskCount: number
-    ): void => {
-        setDepartments(prev => [
-            ...prev,
-            {
-                departmentName,
-                employeeCount,
-                taskCount,
+    const [selectedDepartment] = useState<string>("");
+
+    useEffect(() => {
+        const loadDepartments = async () => {
+            try {
+                const groups = await fetchGroups();
+                setDepartments(groups);
+            } catch (error) {
+                console.error("Failed to load departments:", error);
             }
-        ])
-    }
+        };
 
-    const removeDepartmentAtIndex = (index: number) => {
-        setDepartments(prev => prev.filter((_, i) => i !== index));
-    }
+        loadDepartments();
+    }, []);
+
+    const addDepartment = async (
+        departmentName: string,
+        numberOfUsers: number,
+        organizationId: number,
+    ): Promise<void> => {
+
+        console.log("CREATE PAYLOAD:", {
+            name: departmentName,
+            numberOfUsers,
+            organizationId
+        });
+
+        const newGroup = await createGroup({
+            name: departmentName,
+            numberOfUsers: numberOfUsers,
+            organizationId: Number("1"),
+        });
+
+        setDepartments(prev => [...prev, newGroup]);
+    };
+
+    const removeDepartmentAtIndex = async (index: number) => {
+        const departmentToRemove = departments[index];
+        if (!departmentToRemove) return;
+
+        try {
+            await deleteGroup(departmentToRemove.id);
+
+            setDepartments(prev => prev.filter((_, i) => i !== index));
+        } catch (error) {
+            console.error("Failed to delete department:", error);
+            alert("Failed to delete department. Please try again.");
+        }
+    };
 
     return (
         <main>
-            {/* Outer page wrapper */}
-            <div className="
-                min-h-screen
-                w-full
-                bg-zinc-900
-                p-4
-                flex
-                flex-col
-                ">
-
-                {/* Page wrapper */}
-                <div className="
-                    rounded-3xl
-                    bg-zinc-950
-                    w-full
-                    flex-1
-                    flex
-                ">
-                    {/* Content wrapper for a horizontal layout */}
+            <div className="min-h-screen w-full bg-zinc-900 p-4 flex flex-col">
+                <div className="rounded-3xl bg-zinc-950 w-full flex-1 flex">
                     <div className="flex w-full flex-1">
 
                         <DashboardSidebarNav
@@ -61,20 +79,22 @@ const DepartmentDashboard = () => {
                             bottomLinks={mainNavBottomLinks}
                         />
 
-                        {/* Main dashboard content */}
                         <section className="flex-1 p-6 flex flex-col">
                             <div className="flex-1 overflow-y-auto min-h-0">
                                 <DepartmentList
-                                departments={departments}
-                                departmentIndex={removeDepartmentAtIndex}
+                                    departments={departments}
+                                    departmentIndex={removeDepartmentAtIndex}
                                 />
-                            </div >
+                            </div>
+
                             <div className="mt-6 border-t border-white/10 pt-6">
                                 <DepartmentForm
-                                selectedDepartment={selectedDepartment}
-                                addDepartment={addDepartment}/>
+                                    selectedDepartment={selectedDepartment}
+                                    addDepartment={addDepartment}
+                                />
                             </div>
                         </section>
+
                     </div>
                 </div>
             </div>

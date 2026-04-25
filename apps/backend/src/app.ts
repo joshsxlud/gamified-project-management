@@ -1,5 +1,6 @@
 import express, {Express} from "express";
 import taskRoutes from "./api/v1/routes/taskRoutes";
+import departmentRoutes from "./api/v1/routes/departmentRoutes";
 import cors from "cors";
 
 import { corsOptions }  from "../config/cors";
@@ -19,6 +20,7 @@ app.get("/",  (_req, res) => {
 });
 
 app.use("/api/v1", taskRoutes);
+app.use("/api/v1", departmentRoutes);
 
 
 export default app;

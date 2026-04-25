@@ -102,7 +102,7 @@ export const createTasks = async (req: Request, res: Response): Promise<void> =>
 export const updateTasks = async (req: Request, res: Response): Promise <void> => {
 
     try {
-        const taskId = req.body.id;
+        const taskId: number = Number(req.body.id);
         const updateData: UpdateTaskData = {
             dueDate: req.body.dueDate,
             difficulty: req.body.difficulty,

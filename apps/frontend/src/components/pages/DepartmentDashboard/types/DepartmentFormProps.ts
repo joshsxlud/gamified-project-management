@@ -1,4 +1,8 @@
 export type DepartmentFormProps = {
     selectedDepartment: string;
-    addDepartment: (departmentName: string, employeeCount: number, taskCount: number) => void;
-}
+    addDepartment: (
+        name: string,
+        numberOfUsers: number,
+        organizationId: number,
+    ) => void;
+};
