@@ -75,9 +75,10 @@ export const updateDepartment = async (id: number, updateData: DepartmentUpdateM
 export const deleteDepartment = async (id: number): Promise<void> => {
     try {
         await prisma.group.delete({
-            where: {id}
+            where: { id }
         });
     } catch (error: unknown) {
+        console.error(error);
         throw new Error(`Department with id ${id} could not be deleted.`)
     }
 }

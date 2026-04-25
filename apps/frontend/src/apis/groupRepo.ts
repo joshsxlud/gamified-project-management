@@ -1,4 +1,5 @@
-import type { Group } from "../types/groupType";
+import type { DepartmentBranch as Group } from "../../../../shared/types/frontend-department";
+import type { CreateGroupDTO as CreateGroupDTO } from "../../../../shared/types/frontend-department";
 
 type DepartmentsResponseJSON = {message: String, data: Group[]};
 type DepartmentResponseJSON = {message: String, data: Group};
@@ -43,28 +44,22 @@ export async function getGroupById(groupId: number): Promise<Group> {
 }
 
 // Creates a new group
-export async function createGroup(group: Group): Promise<Group> {
-    try {
-        const createResponse: Response = await fetch(
-            `${BASE_URL}${DEPARTMENT_ENDPOINT}`,
-            {
-                method: "POST",
-                body: JSON.stringify({...group}),
-                headers: {
-                    "Content-Type": "application/json",
-                }
-            }
-        );
-            
-        if(!createResponse.ok) {
-            throw new Error(`Failed to create department.`);
-        }
+export async function createGroup(group: CreateGroupDTO): Promise<Group> {
+    const res = await fetch(`${BASE_URL}${DEPARTMENT_ENDPOINT}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(group),
+    });
 
-        const json: DepartmentResponseJSON = await createResponse.json();
-        return json.data;
-    } catch (error: unknown) {
-        throw new Error(`Creation failed, ${error}`);
+    if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(`Failed to create department: ${errorText}`);
     }
+
+    const json = await res.json();
+    return json.data;
 }
 
 // Updates a group, ensures to get the group's id first
@@ -93,7 +88,7 @@ export async function updateGroup(group: Group): Promise<Group> {
 }
 
 // Deletes a group using its id
-export async function deleteGroup(groupId: string) {
+export async function deleteGroup(groupId: number) {
     try {
         const deleteResponse: Response = await fetch(
             `${BASE_URL}${DEPARTMENT_ENDPOINT}/${groupId}`,

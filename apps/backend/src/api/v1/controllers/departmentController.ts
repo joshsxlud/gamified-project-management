@@ -84,12 +84,18 @@ export const updateDepartment = async (req: Request, res: Response, next: NextFu
 
 export const deleteDepartment = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const departmentId: number = Number(req.body.id);
+        const departmentId = Number(req.params.id);
+
+        if (isNaN(departmentId)) {
+            res.status(HTTP_STATUS.BAD_REQUEST).json(errorResponse("Invalid department ID."));
+            return;
+        }
+
         await departmentService.deleteDepartment(departmentId);
         res.status(HTTP_STATUS.OK).json(successResponse("Department has been deleted."));
-
     } catch (error: unknown) {
-        res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Internal error."));
+        console.error("Delete department error:", error);
+        res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Internal server error."));
         next(error);
     }
 }

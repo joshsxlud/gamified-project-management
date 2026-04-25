@@ -18,7 +18,7 @@ export default function DepartmentForm({
             e.preventDefault();
 
             departmentInput.handleSubmit( async (value) => {
-                addDepartment(value, 0, "");
+                addDepartment(value, 5, 1);
             })
         }
     
