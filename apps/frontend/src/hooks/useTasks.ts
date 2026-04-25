@@ -1,24 +1,38 @@
-import { useState } from "react";
-import type { Task } from "../types/taskType";
+import { useEffect, useState } from "react";
+import type { FrontendTask as Task } from "@shared/types/frontend-task";
 import * as taskService from "../services/taskService";
+import { CreateTaskInput } from "../types/props/TaskDashboard/createTasksProps";
 
 export function useTasks() {
+    const [tasks, setTasks] = useState<Task[]>([]);
 
-    // Initialize task state using a CLONED version of the taskData
-    const [tasks, setTasks] = useState<Task[]>(() => [...taskService.fetchTasks()]);
+    useEffect(() => {
+        async function getTasks() {
+            try {
+                console.log("useTasks: loading tasks...");
+                const fetchedTasks = await taskService.fetchTasks();
+                console.log("useTasks: fetchedTasks =", fetchedTasks);
+                setTasks(fetchedTasks);
+            } catch (error) {
+                console.error("Failed to fetch tasks:", error);
+            }
+        }
 
-    // Creates a new task and adds it to the mock data
-    const createTask = (task: Omit<Task, "id">) => {
-        const newTask = taskService.createTask(task);
-        setTasks([...taskService.fetchTasks()]);
+        getTasks();
+    }, []);
+
+    const createTask = async (task: CreateTaskInput) => {
+        const newTask = await taskService.createTask(task);
+        const updatedTasks = await taskService.fetchTasks();
+        setTasks(updatedTasks);
         return newTask;
     };
 
-    // Deletes a task from the mock data
-    const deleteTask = (id: string) => {
-        taskService.deleteTask(id);
-        setTasks([...taskService.fetchTasks()]);
+    const deleteTask = async (id: number) => {
+        await taskService.deleteTask(id);
+        const updatedTasks = await taskService.fetchTasks();
+        setTasks(updatedTasks);
     };
 
-    return { tasks, createTask, deleteTask };
+    return { tasks, createTask, deleteTask};
 }

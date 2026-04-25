@@ -68,7 +68,6 @@ const TaskDashboard = () => {
     );
 };
 
-
 // IMPORTANT:
 // WHEN TESTING, REMEMBER TO FIX WHAT IS RENDERED IN APP.TSX TO TASKDASHBOARD
 

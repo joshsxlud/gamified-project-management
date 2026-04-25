@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node src/server.ts",
-    "build": "tsc"
+    "build": "prisma generate && tsc"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@prisma/client": "^7.6.0",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^25.5.0",
     "@types/pg": "^8.20.0",

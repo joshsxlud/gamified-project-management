@@ -1,4 +1,4 @@
-import type { Task } from "./tasks/taskModel";
+import type { Task } from "../../../../generated/prisma/client";
 
 export interface User {
 

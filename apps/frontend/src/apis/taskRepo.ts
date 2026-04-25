@@ -1,53 +1,87 @@
-import type { Task } from "../types/taskType";
-import { taskData } from "./mockTaskData";
+import type { FrontendTask as Task } from "@shared/types/frontend-task";
+import { CreateTaskInput } from "../types/props/TaskDashboard/createTasksProps";
+// import { taskData } from "./mockTaskData";
+
+
+type TasksResponseJSON = {message: string, data: Task[]};
+// type TaskResponseJSON = {message: String, data: Task};
+
+
+const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/v1`;
+const TASK_ENDPOINT = "/tasks";
 
 // Create task
-export function createTask(task: Task): Task {
-  const newTask: Task = {
-    ...task,
+export async function createTask(task: CreateTaskInput): Promise<Task> {
+    const taskResponse: Response = await fetch(
+        `${BASE_URL}${TASK_ENDPOINT}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(task),
+        }
+    );
 
-    // Generate random UUID FOR NOW
-    id: task.id ?? crypto.randomUUID(),
-  };
-  taskData.push(newTask);
-  return newTask;
+    if (!taskResponse.ok) {
+        throw new Error("Failed to create a task.");
+    }
+
+    return taskResponse.json();
+
 }
 
 // Get all tasks
-export function fetchTasks(): Task[] {
-    return taskData;
-  }
-  
-// Get task by ID
-export function getTaskById(taskId: string): Task {
-    const foundTask = taskData.find((t) => t.id === taskId);
+export async function fetchTasks(): Promise <Task[]> {
+    
+    console.log(`${BASE_URL}${TASK_ENDPOINT}`);
+    const taskResponse: Response = await fetch(
+        `${BASE_URL}${TASK_ENDPOINT}`
+    );
 
-    if (!foundTask) {
-        throw new Error(`Failed to fetch task with id ${taskId}`);
+    if (!taskResponse.ok) {
+        throw new Error("Failed to retrieve tasks.");
     }
 
-    return foundTask;
+    const json: TasksResponseJSON = await taskResponse.json();
+    return json.data;
 }
 
-// Update task
-export async function updateTask(task: Task): Promise<Task> {
-    const foundTaskIndex = taskData.findIndex((t) => t.id === task.id);
 
-    if (foundTaskIndex === -1) {
-        throw new Error(`Failed to update task with id ${task.id}`);
-    }
+// // Get task by ID
+// export function getTaskById(taskId: string): Task {
+//     const foundTask = taskData.find((t) => t.id === taskId);
 
-    taskData[foundTaskIndex] = task;
-    return taskData[foundTaskIndex];
-}
+//     if (!foundTask) {
+//         throw new Error(`Failed to fetch task with id ${taskId}`);
+//     }
+
+//     return foundTask;
+// }
+
+// // Update task
+// export async function updateTask(task: Task): Promise<Task> {
+//     const foundTaskIndex = taskData.findIndex((t) => t.id === task.id);
+
+//     if (foundTaskIndex === -1) {
+//         throw new Error(`Failed to update task with id ${task.id}`);
+//     }
+
+//     taskData[foundTaskIndex] = task;
+//     return taskData[foundTaskIndex];
+// }
 
 // Delete task
-export function deleteTask(taskId: string): void {
-    const foundTask = taskData.findIndex((t) => t.id === taskId);
+export async function deleteTask(id: number): Promise<void> {
+const taskResponse: Response = await fetch(
+        `${BASE_URL}${TASK_ENDPOINT}/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },           
+        }
+    );
 
-    if (foundTask === -1) {
-        throw new Error(`Failed to delete task with id ${taskId}`);
+    if (!taskResponse.ok) {
+        throw new Error("Failed to delete task");
     }
-
-    taskData.splice(foundTask, 1);
 }

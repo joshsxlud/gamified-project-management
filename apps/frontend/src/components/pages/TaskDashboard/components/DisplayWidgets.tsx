@@ -16,9 +16,6 @@ const DisplayWidgets = ({ view, setView, tasks, createTask, deleteTask }: Dashbo
             flex-col
             flex-1
             min-h-0
-            pt-6
-            pb-6
-            px-8
         ">
             <h1 className="
                 text-2xl
@@ -34,11 +31,11 @@ const DisplayWidgets = ({ view, setView, tasks, createTask, deleteTask }: Dashbo
                 w-full
                 bg-white/10
             "/>
-            <div className="flex-1 min-h-0 mt-4" >
+            <div className="mt-4" >
 
                 {/* Div for the top half of the widgets. */}
                 {/* TOP GRID */}
-                <div className="grid grid-cols-3 gap-4 h-full items-stretch">
+                <div className="grid grid-cols-3 gap-4 items-start">
                     {/* LEFT GRID */}
                     <div className="col-span-1 self-start">
                         <div className="inline-flex">
@@ -75,7 +72,7 @@ const DisplayWidgets = ({ view, setView, tasks, createTask, deleteTask }: Dashbo
             {/* Div for the bottom half of the widgets. */}
             <div className="h-6"/>
     
-                <div className="flex-1 min-h-0">
+                <div className="h-[300px]">
                     <MyTasksWidget tasks={tasks} deleteTask={deleteTask} />
                 </div>
         </section>

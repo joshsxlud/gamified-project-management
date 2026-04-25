@@ -54,17 +54,18 @@ export const getTaskById = async (req: Request, res: Response, next: NextFunctio
  * 
  * @param req - Express request object. 
  * @param res - Express response object.
- * @param Next - Passes control to the next middleware.
+ * @param Next - Passes control to the next middleware. ADD LATER
  */
-export const createTasks = async (req: Request, res: Response, next: NextFunction): Promise <void> => {
+export const createTasks = async (req: Request, res: Response): Promise<void> => {
 
     try {
+        console.log(req.body)
         const taskData: CreateTaskData = {
             title: req.body.title,
             assignedId: Number.parseInt(req.body.assignedId),
             assignedOn: req.body.assignedOn,
             dueDate: req.body.dueDate,
-            difficulty: req.body.difficulty,
+            difficulty: String(req.body.difficulty),
             status: req.body.status ?? false,
             description: req.body.description ?? "",
         }
@@ -73,18 +74,21 @@ export const createTasks = async (req: Request, res: Response, next: NextFunctio
             !taskData.title ||
             !taskData.assignedId ||
             !taskData.assignedOn ||
-            !taskData.difficulty
+            !taskData.difficulty ||
+            !taskData.dueDate
         ) {
             res.status(HTTP_STATUS.BAD_REQUEST).json(errorResponse("Invalid inputs."));
+            return;
         }
 
         const createdTask = await taskService.createTask(taskData);
         res.status(HTTP_STATUS.OK).json(successResponse(createdTask, "Task has been created."));
+        return;
 
     } catch (error: unknown) {
-
+        console.error(error)
         res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Error Response."));
-        next(error);
+        return;
     }
 }
 
@@ -93,9 +97,9 @@ export const createTasks = async (req: Request, res: Response, next: NextFunctio
  * 
  * @param req - Express request object. 
  * @param res - Express response object.
- * @param Next - Passes control to the next middleware.
+ * @param Next - Passes control to the next middleware. ADD THIS LATER WHEN MIDDLEWARE IS ADDED.
  */
-export const updateTasks = async (req: Request, res: Response, next: NextFunction): Promise <void> => {
+export const updateTasks = async (req: Request, res: Response): Promise <void> => {
 
     try {
         const taskId: number = Number(req.body.id);
@@ -111,8 +115,9 @@ export const updateTasks = async (req: Request, res: Response, next: NextFunctio
         res.status(HTTP_STATUS.OK).json(successResponse(updatedTask,"Task has been updated."));
 
     } catch (error: unknown) {
+        console.log(error);
         res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Error Response."));
-        next(error);
+
     }
 }
 

@@ -1,6 +1,6 @@
-import type { Task } from "../../taskType";
+import type { FrontendTask as Task } from "@shared/types/frontend-task";
 
 export type MyTasksWidgetProps = {
     tasks: Task[];
-    deleteTask: (id: string) => void;
+    deleteTask: (id: number) => Promise<void>;
 };
